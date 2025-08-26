@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="Comparative Analysis of Diffusion Models for Audio Denoising">
+  <meta property="og:title" content="Comparative Analysis of Diffusion Models for Audio Denoising"/>
+  <meta property="og:description" content="Comparative Analysis of Diffusion Models for Audio Denoising"/>
+  <meta property="og:url" content="https://benadar293.github.io/midipm"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/overview.PNG" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="Comparative Analysis of Diffusion Models for Audio Denoising">
+  <meta name="twitter:description" content="Comparative Analysis of Diffusion Models for Audio Denoising">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/overview.PNG">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Audio Denoising, Diffusion Models, CTC Loss">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>Comparative Analysis of Diffusion Models for Audio Denoising</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <!-- SeeWav for audio waveform visualization -->
+  <script src="https://unpkg.com/seewav@1.0.0/dist/seewav.min.js"></script>
+  <!-- Chart.js for interactive graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Web Audio API FFT implementation -->
+
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Comparative Analysis of Diffusion Models for Audio Denoising</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="#" target="_blank">Elad Aspis</a><sup>1</sup></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup>1</sup>Bar Ilan University
+                      <!-- Conferance name and year</span> -->
+                    <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <!-- <span class="link-block">
+                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span> -->
+
+                    <!-- Supplementary PDF link -->
+                    <span class="link-block">
+                      <a href="#" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="#" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section"> -->
+  <!-- <div class="container is-widescreen"> -->
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+	  <p>
+        This study investigates the efficacy of diffusion models for audio denoising. We present a comparative analysis between a baseline diffusion model and an enhanced model incorporating a Connectionist Temporal Classification (CTC) loss function. The objective is to evaluate the impact of CTC loss on model performance at various stages of training. Audio samples and quantitative metrics are provided to demonstrate the perceptual and statistical quality of the denoised outputs from both models.
+	  </p>
+        </div>
+      </div>
+    </div>
+
+</section>
+    <br>
+    <!-- End image carousel -->
+
+<section class="section">
+  <div class="container is-widescreen">
+    <h2 class="title is-3">Quantitative Results</h2>
+    <p>To quantitatively evaluate performance, we calculated standard audio quality metrics. The Frechet VGGish Score measures the similarity between distributions of embeddings from the generated audio and the ground truth clean audio. <strong>A lower score indicates higher similarity to the clean audio.</strong></p>
+    <br>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <figure>
+          <div style="width: 100%; height: 400px; margin: 20px 0;">
+            <canvas id="frechetChart"></canvas>
+          </div>
+          <figcaption>Figure 1: Interactive Frechet VGGish Score for Baseline vs. CTC Loss models. The CTC Loss model shows a consistently lower (better) score throughout the training process. Hover over points to see exact values.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <br>
+
+    <br><br>
+
+    <h2 class="title is-3">Audio Samples</h2>
+    <p>The following samples provide a direct perceptual comparison. The "Clean Original" and "Noisy Input" are provided as references.</p>
+    <br>
+
+    <h3 class="title is-4">Reference Audio</h3>
+    <div class="columns is-centered">
+      <div class="column">
+          <div class="content has-text-centered">
+            <p><strong>Clean Original</strong></p>
+            <div id="waveform-clean" style="margin-bottom: 10px;"></div>
+            <canvas id="spectrogram-clean" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+            <audio id="audio-clean" controls>
+              <source src="static/clean_10_soul-groove10_102_4-4_bluebird.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+      </div>
+
+      <div class="column">
+          <div class="content has-text-centered">
+            <p><strong>Noisy Input</strong></p>
+            <div id="waveform-noisy" style="margin-bottom: 10px;"></div>
+            <canvas id="spectrogram-noisy" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+            <audio id="audio-noisy" controls>
+              <source src="static/noisy_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+      </div>
+    </div>
+
+    <br>
+
+    <h3 class="title is-4">Model Outputs Comparison</h3>
+    <div class="table-container">
+      <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Epoch</th>
+            <th>Baseline Model</th>
+            <th>CTC Loss-Improved Model</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0 Epochs (Initial)</strong></td>
+            <td>
+              <div id="waveform-baseline-0" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-baseline-0" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-baseline-0" controls>
+                <source src="static/baseline_model/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+            <td>
+              <div id="waveform-ctc-0" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-ctc-0" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-ctc-0" controls>
+                <source src="static/ctc_loss/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>10 Epochs</strong></td>
+            <td>
+              <div id="waveform-baseline-10" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-baseline-10" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-baseline-10" controls>
+                <source src="static/baseline_model/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+            <td>
+              <div id="waveform-ctc-10" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-ctc-10" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-ctc-10" controls>
+                <source src="static/ctc_loss/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>20 Epochs</strong></td>
+            <td>
+              <div id="waveform-baseline-20" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-baseline-20" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-baseline-20" controls>
+                <source src="static/baseline_model/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+            <td>
+              <div id="waveform-ctc-20" style="margin-bottom: 10px;"></div>
+              <canvas id="spectrogram-ctc-20" style="width: 800px; height: 250px; max-width: 100%; margin-bottom: 10px; border: 1px solid #333; border-radius: 4px;"></canvas>
+              <audio id="audio-ctc-20" controls>
+                <source src="static/ctc_loss/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br><br>
+
+    <h2 class="title is-3">Conclusion</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            The quantitative results show that the CTC Loss-Improved model achieves a consistently lower Frechet VGGish Score, indicating a closer statistical similarity to the clean audio. This is corroborated by the perceptual evaluation of the audio samples, where the CTC model demonstrates superior denoising capabilities compared to the baseline model. This suggests that the inclusion of CTC loss is a promising direction for enhancing diffusion-based audio restoration tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--BibTex citation -->
+  <!-- <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>BibTex Code Here</code></pre>
+    </div>
+</section> -->
+<!--End BibTex citation -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="#" class="external-link" disabled>
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="#" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            <strong>How to Cite:</strong><br>
+            [Author, A. A.] (2025). <em>Comparative Analysis of Diffusion Models for Audio Denoising</em>. Retrieved from [Your-URL-Here].
+          </p>
+          <p>
+            &copy; 2025 [Your Name/Affiliation]. All Rights Reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+<script>
+// Initialize SeeWav instances for all audio files
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Configuration for SeeWav waveforms
+  const waveConfig = {
+    height: 60,
+    width: '100%',
+    color: '#3273dc',
+    progressColor: '#209cee',
+    backgroundColor: '#f5f5f5',
+    cursorColor: '#363636',
+    responsive: true,
+    normalize: true,
+    pixelRatio: window.devicePixelRatio || 1
+  };
+
+  // Function to create SeeWav instance
+  function createSeeWav(containerId, audioSrc) {
+    const container = document.getElementById(containerId);
+    if (!container) return null;
+    
+    return new SeeWav({
+      container: container,
+      url: audioSrc,
+      ...waveConfig
+    });
+  }
+
+  // Reference Audio Waveforms
+  const cleanWave = createSeeWav('waveform-clean', 'static/clean_10_soul-groove10_102_4-4_bluebird.wav');
+  const noisyWave = createSeeWav('waveform-noisy', 'static/noisy_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+
+  // Model Outputs Waveforms - 0 Epochs (Initial)
+  const baseline0Wave = createSeeWav('waveform-baseline-0', 'static/baseline_model/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+  const ctc0Wave = createSeeWav('waveform-ctc-0', 'static/ctc_loss/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+
+  // Model Outputs Waveforms - 10 Epochs
+  const baseline10Wave = createSeeWav('waveform-baseline-10', 'static/baseline_model/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+  const ctc10Wave = createSeeWav('waveform-ctc-10', 'static/ctc_loss/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+
+  // Model Outputs Waveforms - 20 Epochs
+  const baseline20Wave = createSeeWav('waveform-baseline-20', 'static/baseline_model/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+  const ctc20Wave = createSeeWav('waveform-ctc-20', 'static/ctc_loss/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav');
+
+  // Sync waveforms with audio controls
+  const audioMappings = [
+    { audioId: 'audio-clean', wave: cleanWave },
+    { audioId: 'audio-noisy', wave: noisyWave },
+    { audioId: 'audio-baseline-0', wave: baseline0Wave },
+    { audioId: 'audio-ctc-0', wave: ctc0Wave },
+    { audioId: 'audio-baseline-10', wave: baseline10Wave },
+    { audioId: 'audio-ctc-10', wave: ctc10Wave },
+    { audioId: 'audio-baseline-20', wave: baseline20Wave },
+    { audioId: 'audio-ctc-20', wave: ctc20Wave }
+  ];
+
+  audioMappings.forEach(({ audioId, wave }) => {
+    if (!wave) return;
+    
+    const audioEl = document.getElementById(audioId);
+    if (!audioEl) return;
+    
+    // Sync audio controls with waveform
+    audioEl.addEventListener('play', () => {
+      if (wave.play) wave.play();
+    });
+    
+    audioEl.addEventListener('pause', () => {
+      if (wave.pause) wave.pause();
+    });
+    
+    audioEl.addEventListener('timeupdate', () => {
+      if (wave.seekTo && audioEl.duration) {
+        const progress = audioEl.currentTime / audioEl.duration;
+        wave.seekTo(progress);
+      }
+    });
+
+    // Click on waveform to control audio
+    if (wave.on) {
+      wave.on('click', (progress) => {
+        if (audioEl.duration) {
+          audioEl.currentTime = progress * audioEl.duration;
+        }
+      });
+      
+      wave.on('play', () => {
+        audioEl.play();
+      });
+      
+      wave.on('pause', () => {
+        audioEl.pause();
+      });
+    }
+  });
+
+  // Alternative approach if SeeWav doesn't have event listeners
+  // Add click handlers to waveform containers
+  document.querySelectorAll('[id^="waveform-"]').forEach(container => {
+    container.addEventListener('click', (e) => {
+      const rect = container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const progress = clickX / rect.width;
+      
+      // Find corresponding audio element
+      const waveformId = container.id;
+      const audioId = waveformId.replace('waveform-', 'audio-');
+      const audioEl = document.getElementById(audioId);
+      
+      if (audioEl && audioEl.duration) {
+        audioEl.currentTime = progress * audioEl.duration;
+      }
+    });
+  });
+});
+</script>
+
+<script>
+// Ultra-Fast Streaming STFT Spectrogram Generator (Single Full-Height)
+class SpectrogramGenerator {
+  constructor() {
+    this.fftSize = 1024;  
+    this.hopSize = 256;   
+    this.windowType = 'hanning';
+    this.scrollViewWidth = 800;
+    this.scrollViewHeight = 250; // Single spectrogram height
+    this.timeWindowSeconds = 5;
+    this.initialComputeSeconds = 5;
+    this.streamingBatchSeconds = 3;
+    this.isStreaming = new Map();
+  }
+
+  // Create Hanning window
+  createHanningWindow(size) {
+    const window = new Float32Array(size);
+    for (let i = 0; i < size; i++) {
+      window[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / (size - 1)));
+    }
+    return window;
+  }
+
+  // Ultra-optimized magnitude spectrum calculation (skip frequency bins for speed)
+  calculateMagnitudeSpectrum(frameData) {
+    const N = frameData.length;
+    const magnitudes = new Float32Array(N / 2);
+    
+    // Ultra-fast DFT - only calculate every 2nd frequency bin and interpolate
+    for (let k = 0; k < N / 2; k += 2) {
+      let real = 0;
+      let imag = 0;
+      
+      // Sample every 8th point for maximum speed
+      for (let n = 0; n < N; n += 8) {
+        const angle = -2 * Math.PI * k * n / N;
+        real += frameData[n] * Math.cos(angle);
+        imag += frameData[n] * Math.sin(angle);
+      }
+      
+      const magnitude = Math.sqrt(real * real + imag * imag);
+      magnitudes[k] = magnitude;
+      
+      // Simple interpolation for skipped bin
+      if (k + 1 < N / 2) {
+        magnitudes[k + 1] = magnitude * 0.8; // Approximate
+      }
+    }
+    
+    return magnitudes;
+  }
+
+  // Adobe Audition color mapping (optimized)
+  getAdobeAuditionColor(dbValue) {
+    const minDb = -80;
+    const maxDb = -10;
+    const normalized = Math.max(0, Math.min(1, (dbValue - minDb) / (maxDb - minDb)));
+    
+    let r, g, b;
+    
+    if (normalized <= 0.05) {
+      // Almost black for very low values
+      r = g = b = Math.floor(normalized * 200);
+    } else if (normalized < 0.2) {
+      // Dark blue
+      const t = (normalized - 0.05) / 0.15;
+      r = 0;
+      g = Math.floor(t * 30);
+      b = Math.floor(60 + t * 140);
+    } else if (normalized < 0.4) {
+      // Blue to purple
+      const t = (normalized - 0.2) / 0.2;
+      r = Math.floor(t * 120);
+      g = Math.floor(30 + t * 20);
+      b = Math.floor(200 + t * 55);
+    } else if (normalized < 0.6) {
+      // Purple to magenta
+      const t = (normalized - 0.4) / 0.2;
+      r = Math.floor(120 + t * 135);
+      g = Math.floor(50 - t * 30);
+      b = Math.floor(255 - t * 100);
+    } else if (normalized < 0.8) {
+      // Magenta to red/orange
+      const t = (normalized - 0.6) / 0.2;
+      r = 255;
+      g = Math.floor(20 + t * 100);
+      b = Math.floor(155 - t * 155);
+    } else {
+      // Orange to yellow
+      const t = (normalized - 0.8) / 0.2;
+      r = 255;
+      g = Math.floor(120 + t * 135);
+      b = Math.floor(t * 80);
+    }
+    
+    return [Math.min(255, r), Math.min(255, g), Math.min(255, b)];
+  }
+
+  // Optimized spectrogram generation
+  async generateSpectrogram(audioBuffer, canvasId) {
+    try {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) {
+        console.error(`Canvas ${canvasId} not found`);
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      const channelData = audioBuffer.getChannelData(0);
+      const sampleRate = audioBuffer.sampleRate;
+      
+      console.log(`Generating optimized spectrogram for ${canvasId}`);
+      console.log(`Audio: ${channelData.length} samples, ${sampleRate}Hz`);
+      
+      // Single full-height spectrogram setup - FINAL FIX for tiling
+      const width = this.scrollViewWidth;  // 800
+      const height = this.scrollViewHeight; // 250
+      
+      // Set canvas internal dimensions
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Set CSS dimensions to match the buffer EXACTLY to prevent scaling/tiling
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      
+      // Allow the container to shrink on smaller screens
+      canvas.style.maxWidth = '100%';
+
+      // Calculate high-resolution parameters
+      const framesPerSecond = sampleRate / this.hopSize;
+      const totalFrames = Math.floor((channelData.length - this.fftSize) / this.hopSize) + 1;
+      const totalDuration = totalFrames / framesPerSecond;
+      const frequencyBins = this.fftSize / 2;
+      
+      console.log(`🚀 Smart streaming mode: ${totalFrames} frames, ${totalDuration.toFixed(1)}s total`);
+      console.log(`📊 Initial compute: ${this.initialComputeSeconds}s, then stream during playback`);
+      
+      // Pre-create window
+      const window = this.createHanningWindow(this.fftSize);
+      
+      // Calculate initial processing range (first 20 seconds)
+      const initialFrames = Math.min(totalFrames, Math.floor(this.initialComputeSeconds * framesPerSecond));
+      const spectrogramData = new Array(totalFrames); // Pre-allocate full array
+      
+      console.log(`⚡ INSTANT MODE: Processing first ${this.initialComputeSeconds}s only...`);
+      console.log(`🎯 Ultra-fast params: ${initialFrames} frames for instant loading`);
+      
+      // Process initial frames with maximum speed
+      const batchSize = 25; // Smaller batches for responsiveness
+      for (let batchStart = 0; batchStart < initialFrames; batchStart += batchSize) {
+        const batchEnd = Math.min(batchStart + batchSize, initialFrames);
+        
+        // Minimal progress updates
+        if (batchStart % 100 === 0) {
+          const progress = Math.floor((batchStart / initialFrames) * 100);
+          
+          // Quick progress display
+          ctx.fillStyle = '#1a1a2e';
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = '#00ff88';
+          ctx.font = '18px Arial';
+          ctx.fillText(`⚡ ${progress}%`, 10, height/2);
+        }
+        
+        
+        // Process batch with minimal overhead
+        for (let frameIndex = batchStart; frameIndex < batchEnd; frameIndex++) {
+          const startSample = frameIndex * this.hopSize;
+
+          // Extract windowed frame (simplified)
+          const frameData = new Float32Array(this.fftSize);
+          const endSample = Math.min(startSample + this.fftSize, channelData.length);
+          
+          for (let i = 0; i < this.fftSize && startSample + i < channelData.length; i++) {
+            frameData[i] = channelData[startSample + i] * window[i];
+          }
+          
+          // Calculate magnitude spectrum
+          const magnitudes = this.calculateMagnitudeSpectrum(frameData);
+          spectrogramData[frameIndex] = magnitudes;
+        }
+        
+        // No delays for maximum speed
+      }
+
+      console.log(`🚀 INSTANT READY! ${this.initialComputeSeconds}s computed in record time!`);      
+      // Store canvas info with streaming setup
+      const spectrogramFramesPerSecond = sampleRate / this.hopSize;
+      this.storeCanvasInfo(canvasId, width, height, totalDuration, spectrogramData, spectrogramFramesPerSecond, frequencyBins, sampleRate, channelData, window, initialFrames);
+      
+      // Initial render (show first 5 seconds)
+      this.renderScrollingView(canvasId, 0);
+      
+    } catch (error) {
+      console.error(`Error generating spectrogram for ${canvasId}:`, error);
+      throw error;
+    }
+  }
+
+  // Ultra-fast streaming computation (minimal overhead)
+  async streamingCompute(canvasId, targetTime) {
+    const info = this.canvasInfo[canvasId];
+    if (!info || !info.channelData) return;
+    
+    const targetFrame = Math.floor(targetTime * info.framesPerSecond);
+    const computeStartFrame = info.computedFrames || 0;
+    
+    // Check if we need to compute more frames (smaller buffer for speed)
+    if (targetFrame <= computeStartFrame + 50) return; // Reduced buffer
+    
+    const computeEndFrame = Math.min(
+      info.spectrogramData.length - 1,
+      targetFrame + Math.floor(this.streamingBatchSeconds * info.framesPerSecond)
+    );
+    
+    if (computeEndFrame <= computeStartFrame) return;
+    
+    // Process in ultra-fast background mode
+    const processFrames = async () => {
+      const batchSize = 10; // Even smaller batches
+      
+      for (let frameIndex = computeStartFrame; frameIndex <= computeEndFrame; frameIndex += batchSize) {
+        const batchEnd = Math.min(frameIndex + batchSize, computeEndFrame);
+        
+        for (let i = frameIndex; i <= batchEnd; i++) {
+          if (i < info.spectrogramData.length && !info.spectrogramData[i]) {
+            const startSample = i * this.hopSize;
+            
+            // Ultra-fast frame extraction
+            const frameData = new Float32Array(this.fftSize);
+            for (let j = 0; j < this.fftSize && startSample + j < info.channelData.length; j++) {
+              frameData[j] = info.channelData[startSample + j] * info.window[j];
+            }
+            
+            // Calculate magnitude spectrum
+            const magnitudes = this.calculateMagnitudeSpectrum(frameData);
+            info.spectrogramData[i] = magnitudes;
+          }
+        }
+        
+        // Minimal delay
+        await new Promise(resolve => setTimeout(resolve, 1));
+      }
+      
+      info.computedFrames = computeEndFrame;
+    };
+    
+    // Run in background without blocking
+    processFrames().catch(console.error);
+  }
+
+  // Store canvas information for streaming spectrogram
+  storeCanvasInfo(canvasId, width, height, duration, spectrogramData, framesPerSecond, frequencyBins, sampleRate, channelData, window, computedFrames) {
+    if (!this.canvasInfo) {
+      this.canvasInfo = {};
+    }
+    this.canvasInfo[canvasId] = {
+      width: width,
+      height: height,
+      duration: duration,
+      spectrogramData: spectrogramData, // Sparse array - only computed portions filled
+      framesPerSecond: framesPerSecond,
+      frequencyBins: frequencyBins,
+      sampleRate: sampleRate,
+      currentScrollTime: 0,
+      // Streaming data
+      channelData: channelData,
+      window: window,
+      computedFrames: computedFrames
+    };
+    this.isStreaming.set(canvasId, false);
+  }
+
+  // Render scrolling view of spectrogram
+  renderScrollingView(canvasId, centerTime) {
+    if (!this.canvasInfo || !this.canvasInfo[canvasId]) return;
+    
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const info = this.canvasInfo[canvasId];
+    
+    // Calculate time window
+    const startTime = Math.max(0, centerTime - this.timeWindowSeconds / 2);
+    const endTime = Math.min(info.duration, centerTime + this.timeWindowSeconds / 2);
+    
+    // Calculate frame indices
+    const startFrame = Math.floor(startTime * info.framesPerSecond);
+    const endFrame = Math.min(info.spectrogramData.length - 1, Math.floor(endTime * info.framesPerSecond));
+    const visibleFrames = endFrame - startFrame + 1;
+    
+    // Clear canvas with solid background first
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 0, info.width, info.height);
+    
+    if (visibleFrames <= 0) return;
+    
+    console.log(`Rendering: ${info.width}x${info.height} canvas, ${visibleFrames} frames, ${info.frequencyBins} freq bins`);
+    
+    // Find dynamic range for this time window (only from computed frames)
+    let minMagnitude = Infinity;
+    let maxMagnitude = -Infinity;
+    
+    for (let frameIdx = startFrame; frameIdx <= endFrame; frameIdx++) {
+      if (frameIdx >= 0 && frameIdx < info.spectrogramData.length && info.spectrogramData[frameIdx]) {
+        const frame = info.spectrogramData[frameIdx];
+        for (const mag of frame) {
+          if (mag > 0) {
+            const db = 20 * Math.log10(Math.max(mag, 1e-10));
+            minMagnitude = Math.min(minMagnitude, db);
+            maxMagnitude = Math.max(maxMagnitude, db);
+          }
+        }
+      }
+    }
+    
+    // Set default range if no data computed yet
+    if (minMagnitude === Infinity) {
+      minMagnitude = -80;
+      maxMagnitude = -10;
+    }
+    
+    // Render the visible time window
+    const imageData = ctx.createImageData(info.width, info.height);
+    const data = imageData.data;
+    
+    for (let x = 0; x < info.width; x++) {
+      const frameProgress = x / info.width;
+      const currentFrameIdx = startFrame + Math.floor(frameProgress * visibleFrames);
+      
+      if (currentFrameIdx >= 0 && currentFrameIdx < info.spectrogramData.length && info.spectrogramData[currentFrameIdx]) {
+        const frame = info.spectrogramData[currentFrameIdx];
+        
+        for (let y = 0; y < info.height; y++) {
+          const freqBin = Math.floor(((info.height - 1 - y) / info.height) * info.frequencyBins);
+          if (freqBin < frame.length) {
+            const magnitude = frame[freqBin];
+            const db = magnitude > 0 ? 20 * Math.log10(Math.max(magnitude, 1e-10)) : minMagnitude;
+            
+            const color = this.getAdobeAuditionColor(db);
+            
+            const pixelIndex = (y * info.width + x) * 4;
+            data[pixelIndex] = color[0];
+            data[pixelIndex + 1] = color[1];
+            data[pixelIndex + 2] = color[2];
+            data[pixelIndex + 3] = 255;
+          }
+        }
+      } else {
+        // Frame not computed yet - show loading pattern
+        for (let y = 0; y < info.height; y++) {
+          const pixelIndex = (y * info.width + x) * 4;
+          // Dark blue loading pattern
+          data[pixelIndex] = 20;     // R
+          data[pixelIndex + 1] = 30; // G  
+          data[pixelIndex + 2] = 60; // B
+          data[pixelIndex + 3] = 255; // A
+        }
+      }
+    }
+    
+    ctx.putImageData(imageData, 0, 0);
+    
+    // Add time grid and labels
+    this.drawTimeGrid(ctx, info, startTime, endTime);
+    
+    // Add frequency labels
+    this.drawFrequencyLabels(ctx, info);
+    
+    // Update stored scroll time
+    info.currentScrollTime = centerTime;
+  }
+
+  // Draw time grid and labels
+  drawTimeGrid(ctx, info, startTime, endTime) {
+    const timeRange = endTime - startTime;
+    const timeStep = timeRange / 10; // 10 time divisions
+    
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.font = '10px Arial';
+    ctx.fillStyle = 'white';
+    
+    for (let i = 0; i <= 10; i++) {
+      const time = startTime + i * timeStep;
+      const x = (i / 10) * info.width;
+      
+      // Draw vertical grid line
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, info.height);
+      ctx.stroke();
+      
+      // Draw time label
+      const timeLabel = time.toFixed(1) + 's';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.fillRect(x - 15, info.height - 16, 30, 14);
+      ctx.fillStyle = 'white';
+      ctx.fillText(timeLabel, x - 12, info.height - 6);
+    }
+  }
+
+  // Draw frequency labels
+  drawFrequencyLabels(ctx, info) {
+    const nyquist = info.sampleRate / 2;
+    const freqLabels = [
+      { freq: 100, label: '100Hz' },
+      { freq: 1000, label: '1kHz' },
+      { freq: 2000, label: '2kHz' },
+      { freq: 5000, label: '5kHz' },
+      { freq: 10000, label: '10kHz' },
+      { freq: 16000, label: '16kHz' }
+    ];
+    
+    ctx.font = '10px Arial';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    
+    freqLabels.forEach(({ freq, label }) => {
+      if (freq <= nyquist) {
+        const y = info.height - (freq / nyquist) * info.height;
+        if (y > 15 && y < info.height - 5) {
+          // Background for readability
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+          ctx.fillRect(2, y - 8, 35, 12);
+          
+          // Text outline
+          ctx.strokeText(label, 5, y);
+          
+          // Text fill
+          ctx.fillStyle = 'white';
+          ctx.fillText(label, 5, y);
+        }
+      }
+    });
+  }
+
+  // Draw scrolling time cursor
+  drawTimeCursor(canvasId, currentTime) {
+    if (!this.canvasInfo || !this.canvasInfo[canvasId]) return;
+    
+    const info = this.canvasInfo[canvasId];
+    
+    // Trigger streaming computation for upcoming audio
+    this.streamingCompute(canvasId, currentTime);
+    
+    // Update scrolling view to center on current time
+    this.renderScrollingView(canvasId, currentTime);
+    
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Draw cursor at center of view (since we scroll to center on current time)
+    const cursorX = info.width / 2;
+    
+    // Draw time cursor line
+    ctx.strokeStyle = '#00ff88';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(cursorX, 0);
+    ctx.lineTo(cursorX, info.height);
+    ctx.stroke();
+    
+    // Draw cursor triangle at top
+    ctx.fillStyle = '#00ff88';
+    ctx.beginPath();
+    ctx.moveTo(cursorX - 4, 0);
+    ctx.lineTo(cursorX + 4, 0);
+    ctx.lineTo(cursorX, 8);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Draw time label
+    const timeText = `${currentTime.toFixed(1)}s`;
+    ctx.font = '10px Arial';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.fillRect(cursorX - 15, 12, 30, 14);
+    ctx.fillStyle = '#00ff88';
+    ctx.fillText(timeText, cursorX - 12, 22);
+  }
+
+  // Setup audio sync for a specific audio element and canvas
+  setupAudioSync(audioId, canvasId) {
+    const audio = document.getElementById(audioId);
+    if (!audio) {
+      console.warn(`Audio element ${audioId} not found for sync`);
+      return;
+    }
+    
+    // Update time cursor during playback
+    const updateCursor = () => {
+      if (!audio.paused) {
+        this.drawTimeCursor(canvasId, audio.currentTime);
+        requestAnimationFrame(updateCursor);
+      }
+    };
+    
+    // Start cursor update when audio plays
+    audio.addEventListener('play', () => {
+      updateCursor();
+    });
+    
+    // Update cursor when seeking
+    audio.addEventListener('timeupdate', () => {
+      if (audio.paused) {
+        this.drawTimeCursor(canvasId, audio.currentTime);
+      }
+    });
+    
+    // Clear cursor when audio ends or pauses
+    audio.addEventListener('pause', () => {
+      this.drawTimeCursor(canvasId, audio.currentTime);
+    });
+    
+    audio.addEventListener('ended', () => {
+      this.drawTimeCursor(canvasId, 0);
+    });
+    
+    console.log(`✅ Audio sync setup for ${audioId} -> ${canvasId}`);
+  }
+
+  // Load and process audio
+  async loadAndGenerateSpectrogram(audioUrl, canvasId) {
+    try {
+      console.log(`🎵 Loading audio for optimized spectrogram: ${audioUrl}`);
+      
+      // Show initial loading
+      const canvas = document.getElementById(canvasId);
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 256;
+        
+        const gradient = ctx.createLinearGradient(0, 0, 800, 256);
+        gradient.addColorStop(0, '#1a1a2e');
+        gradient.addColorStop(1, '#16213e');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 800, 256);
+        
+        ctx.fillStyle = '#00ff88';
+        ctx.font = '14px Arial';
+        ctx.fillText('Loading audio...', 10, 128);
+      }
+      
+      const response = await fetch(audioUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to load: ${response.status}`);
+      }
+      
+      const arrayBuffer = await response.arrayBuffer();
+      console.log(`Audio loaded: ${(arrayBuffer.byteLength / 1024).toFixed(0)}KB`);
+      
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      
+      console.log(`Audio ready: ${audioBuffer.duration.toFixed(1)}s @ ${audioBuffer.sampleRate}Hz`);
+      
+      await this.generateSpectrogram(audioBuffer, canvasId);
+      
+    } catch (error) {
+      console.error(`❌ Error loading ${canvasId}:`, error);
+      
+      const canvas = document.getElementById(canvasId);
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 256;
+        ctx.fillStyle = '#330000';
+        ctx.fillRect(0, 0, 800, 256);
+        ctx.fillStyle = '#ff6666';
+        ctx.font = '12px Arial';
+        ctx.fillText(`Error: ${error.message}`, 10, 50);
+      }
+    }
+  }
+}
+
+// Initialize Adobe Audition-style spectrograms
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('� Initializing Adobe Audition-style spectrograms...');
+  
+  const spectrogramGenerator = new SpectrogramGenerator();
+  
+  setTimeout(() => {
+    console.log('🚀 Starting Adobe Audition-style spectrogram generation for all epochs...');
+    
+    // Reference audio spectrograms
+    console.log('Generating reference audio spectrograms...');
+    spectrogramGenerator.loadAndGenerateSpectrogram(
+      'static/clean_10_soul-groove10_102_4-4_bluebird.wav',
+      'spectrogram-clean'
+    );
+    
+    spectrogramGenerator.loadAndGenerateSpectrogram(
+      'static/noisy_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+      'spectrogram-noisy'
+    );
+    
+    // Epoch 0 spectrograms (minimal delay for instant loading)
+    setTimeout(() => {
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/baseline_model/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-baseline-0'
+      );
+      
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/ctc_loss/epoch0_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-ctc-0'
+      );
+    }, 500); // Reduced from 3000ms
+    
+    // Epoch 10 spectrograms
+    setTimeout(() => {
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/baseline_model/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-baseline-10'
+      );
+      
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/ctc_loss/epoch10_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-ctc-10'
+      );
+    }, 1000); // Reduced from 6000ms
+    
+    // Epoch 20 spectrograms
+    setTimeout(() => {
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/baseline_model/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-baseline-20'
+      );
+      
+      spectrogramGenerator.loadAndGenerateSpectrogram(
+        'static/ctc_loss/epoch20_10_soul-groove10_102_4-4_bluebird_v1_noisy.wav',
+        'spectrogram-ctc-20'
+      );
+    }, 1500); // Reduced from 9000ms
+    
+    // Setup audio synchronization (earlier setup)
+    setTimeout(() => {
+      // Reference audio sync
+      spectrogramGenerator.setupAudioSync('audio-clean', 'spectrogram-clean');
+      spectrogramGenerator.setupAudioSync('audio-noisy', 'spectrogram-noisy');
+      
+      // Model outputs sync
+      spectrogramGenerator.setupAudioSync('audio-baseline-0', 'spectrogram-baseline-0');
+      spectrogramGenerator.setupAudioSync('audio-ctc-0', 'spectrogram-ctc-0');
+      spectrogramGenerator.setupAudioSync('audio-baseline-10', 'spectrogram-baseline-10');
+      spectrogramGenerator.setupAudioSync('audio-ctc-10', 'spectrogram-ctc-10');
+      spectrogramGenerator.setupAudioSync('audio-baseline-20', 'spectrogram-baseline-20');
+      spectrogramGenerator.setupAudioSync('audio-ctc-20', 'spectrogram-ctc-20');
+    }, 2000); // Reduced from 12000ms
+    
+  }, 1000);
+});
+</script>
+
+<script>
+// Function to load CSV data
+async function loadCSV(url) {
+  const response = await fetch(url);
+  const text = await response.text();
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',');
+  const data = [];
+  
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',');
+    const row = {};
+    headers.forEach((header, index) => {
+      row[header.trim()] = parseFloat(values[index]) || values[index];
+    });
+    data.push(row);
+  }
+  return data;
+}
+
+// Initialize the chart
+async function initChart() {
+  console.log('Starting chart initialization...');
+  
+  try {
+    console.log('Loading CSV files...');
+    // Load both CSV files
+    const baselineData = await loadCSV('static/graphs/frechet_loss/tensorboard_logs_version_0.csv');
+    const ctcData = await loadCSV('static/graphs/frechet_loss/tensorboard_logs_version_1.csv');
+    
+    console.log('Baseline data:', baselineData.length, 'points');
+    console.log('CTC data:', ctcData.length, 'points');
+    console.log('Sample baseline data:', baselineData.slice(0, 3));
+    console.log('Sample CTC data:', ctcData.slice(0, 3));
+
+    const chartElement = document.getElementById('frechetChart');
+    console.log('Chart element found:', chartElement);
+    
+    if (!chartElement) {
+      console.error('Chart element not found!');
+      return;
+    }
+
+    const ctx = chartElement.getContext('2d');
+    console.log('Canvas context:', ctx);
+    
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Baseline Model',
+          data: baselineData.map(row => ({
+            x: row.Step,
+            y: row.Value
+          })),
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }, {
+          label: 'CTC Loss Model',
+          data: ctcData.map(row => ({
+            x: row.Step,
+            y: row.Value
+          })),
+          borderColor: 'rgb(54, 162, 235)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'linear',
+            title: {
+              display: true,
+              text: 'Training Steps'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Frechet VGGish Score'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Frechet VGGish Score Comparison During Training'
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            mode: 'point',
+            intersect: false,
+            callbacks: {
+              label: function(context) {
+                return `${context.dataset.label}: ${context.parsed.y.toFixed(4)} (Step: ${context.parsed.x})`;
+              }
+            }
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
+      }
+    });
+    
+    console.log('Chart created successfully:', chart);
+  } catch (error) {
+    console.error('Error loading chart data:', error);
+    document.getElementById('frechetChart').parentElement.innerHTML = 
+      '<p style="text-align: center; color: red;">Error loading chart data: ' + error.message + '</p>';
+  }
+}
+
+// Initialize chart when page loads
+document.addEventListener('DOMContentLoaded', initChart);
+</script>
+
+<style>
+  /* Responsive Design Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 15px;
+    }
+    
+    .title.is-1 {
+      font-size: 2.5rem;
+    }
+    
+    .title.is-2 {
+      font-size: 2rem;
+    }
+    
+    .title.is-3 {
+      font-size: 1.75rem;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .columns {
+      flex-direction: column;
+    }
+    
+    .column {
+      width: 100%;
+    }
+    
+    #chart-container {
+      height: 300px;
+    }
+  }
+</style>
+
+  </body>
+  </html>
