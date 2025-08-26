@@ -4,7 +4,7 @@ This repository contains the research page for our study on the efficacy of diff
 
 ## 🔗 Live Demo
 
-Visit the live research page: [https://[your-username].github.io/paper_page](https://[your-username].github.io/paper_page)
+Visit the live research page: [https://eladaspis.github.io/paper_page](https://eladaspis.github.io/paper_page)
 
 ## 📋 Abstract
 
@@ -41,7 +41,7 @@ The page includes:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/[your-username]/paper_page.git
+   git clone https://github.com/eladaspis/paper_page.git
    cd paper_page
    ```
 
@@ -80,7 +80,7 @@ If you use this work in your research, please cite:
   author={Elad Aspis},
   year={2025},
   institution={Bar Ilan University},
-  url={https://[your-username].github.io/paper_page}
+  url={https://eladaspis.github.io/paper_page}
 }
 ```
 
